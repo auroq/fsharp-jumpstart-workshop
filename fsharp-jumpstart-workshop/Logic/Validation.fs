@@ -5,8 +5,5 @@ open fsharp_jumpstart_workshop.Types
 
 module Validation =
     let validateEmail (email : string) : bool =
-        email.Contains("@") &&
-        email.Length > 2 &&
-        email.IndexOf("@") = email.LastIndexOf("@") &&
-        email.IndexOf("@") > 0 &&
-        email.IndexOf("@") < (email.Length - 1)
+        let splitEmail = email.Split("@")
+        email.Length > 2 && (splitEmail.Length - 1) = 1 && (splitEmail |> Array.filter (fun (s : string) -> s.Length = 0)).Length = 0
