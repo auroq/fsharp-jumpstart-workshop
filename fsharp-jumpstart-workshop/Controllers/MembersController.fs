@@ -20,7 +20,6 @@ type MemberModel = {
     Email : string
     PlanId : string
 }   
-
 [<Route("api/[controller]")>]
 [<ApiController>]
 type MembersController () =
@@ -57,10 +56,11 @@ type MembersController () =
                 memberToSave.PlanId
         match success with
         | Ok _ -> this.Ok() :> ActionResult
-        | Error  TooShort -> this.BadRequest("Your email is too short") :> ActionResult
-        | Error  BadAtCount -> this.BadRequest("Missing an at") :> ActionResult
-        | Error  NoTextOnSidesOfAt -> this.BadRequest("No text on sides of at") :> ActionResult
-
-
-
+        | Error err -> 
+            let errorMessage =  
+                match err with
+                | EmailValidationError.TooShort -> "Email needs to be atleast 3 characters long"
+                | EmailValidationError.BadAtCount -> "Email needs to have atleast and only 1 @"
+                | EmailValidationError.NoTextBeforeOrAfterAt -> "Email needs to have text before and after @"
+            this.BadRequest(errorMessage) :> ActionResult
 
