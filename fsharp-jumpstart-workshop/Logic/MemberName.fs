@@ -1,11 +1,12 @@
 namespace fsharp_jumpstart_worskhop.Logic
 
 open System
-open fsharp_jumpstart_workshop.Types
 
 module MemberName = 
     let capitalizeFirstLetter (name : string) : string =
-        name.[0].ToString().ToUpper() + name.[1..]
+        let firstLetter = name.[0] |> Char.ToUpper
+        let restOfName = name.Substring 1
+        string firstLetter + restOfName
 
     let trim (name : string) : string =
         name.Trim()
@@ -16,4 +17,4 @@ module MemberName =
     let removeEmptySpaces (name : string) : string =
         name.Replace(" ", "")        
 
-    let format = removeEmptySpaces >> capitalizeFirstLetter
+    let format = trim >> toLower >> removeEmptySpaces >> capitalizeFirstLetter
