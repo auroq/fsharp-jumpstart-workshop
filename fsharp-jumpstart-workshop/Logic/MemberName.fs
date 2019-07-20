@@ -16,4 +16,4 @@ module MemberName =
     let removeEmptySpaces (name : string) : string =
         name.Replace(" ", "")        
 
-    let format (name : string) : string = capitalizeFirstLetter (removeEmptySpaces name)
+    let format = removeEmptySpaces >> capitalizeFirstLetter
