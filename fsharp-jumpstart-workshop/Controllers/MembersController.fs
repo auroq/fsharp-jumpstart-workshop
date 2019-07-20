@@ -63,4 +63,19 @@ type MembersController () =
                 | EmailValidationError.BadAtCount -> "Email needs to have atleast and only 1 @"
                 | EmailValidationError.NoTextOnSidesOfAt -> "Email needs to have text before and after @"
             this.BadRequest(errorMessage) :> ActionResult
+     
+    [<HttpPost("{id}/email/{email}")>]
+    member this.Post(id:int, email:string) : ActionResult =
+        let success =
+            Dependencies.updateEmailWorkflow id email
+        match success with
+        | Ok _ -> this.Ok() :> ActionResult
+        | Error err -> 
+            let errorMessage =  
+                match err with
+                | EmailValidationError.TooShort -> "Email needs to be atleast 3 characters long"
+                | EmailValidationError.BadAtCount -> "Email needs to have atleast and only 1 @"
+                | EmailValidationError.NoTextOnSidesOfAt -> "Email needs to have text before and after @"
+            this.BadRequest(errorMessage) :> ActionResult
+        
 

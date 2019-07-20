@@ -38,3 +38,14 @@ module MemberWorkflows =
             | Error err ->
                 Error err
 
+    let updateEmail
+        (updateEmail : int -> string -> unit)
+        (id : int)
+        (email : string)
+        =
+            match Validation.validateEmail (UnvalidatedEmail email) with
+            | Ok (ValidatedEmail validatedEmail) ->
+                updateEmail id validatedEmail
+                Ok ()  
+            | Error err ->
+                Error err

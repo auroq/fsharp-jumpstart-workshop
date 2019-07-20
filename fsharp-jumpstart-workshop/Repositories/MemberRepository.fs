@@ -23,6 +23,19 @@ module MemberRepository =
             Email = dto.Email
             PlanId = dto.PlanId
         }
+    
+    let updateEmail writeData (id : int) (newEmail : string) : unit =
+        let query = """
+            update members
+            set email = @email
+            where id = @id
+        """
+        writeData
+            query
+            ([
+                Database.p "id" id
+                Database.p "email" newEmail
+            ] |> dict)
 
     //todo: exception when trying to insert duplicate email... handle graciously
     let save writeData (memberToSave : Member) : unit =
