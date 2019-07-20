@@ -4,14 +4,9 @@ open System
 open fsharp_jumpstart_workshop.Types
 
 module Validation =
-    let validateEmail (UnvalidatedEmail email) : Result<ValidatedEmail, EmailValidationError> = 
-        match email.Length > 2 with
-        | false -> Error EmailValidationError.TooShort
-        | true ->
-            let splitEmail = email.Split("@")
-            match (splitEmail.Length - 1) = 1 with
-            | false -> Error EmailValidationError.BadAtCount
-            | true ->
-                match (splitEmail |> Array.filter (fun (s : string) -> s.Length = 0)).Length = 0 with
-                | false -> Error EmailValidationError.NoTextOnSidesOfAt
-                | true -> Ok (ValidatedEmail email)
+    let validateEmail (UnvalidatedEmail email) : Result<ValidatedEmail, EmailValidationError> =
+        match (email, email.Split("@")) with
+        | email, _ when email.Length < 3 -> Error TooShort
+        | _, arrayOfWords when arrayOfWords.Length <> 2 -> Error BadAtCount
+        | _, [|word1; word2|] when word1.Length = 0 || word2.Length = 0 -> Error NoTextOnSidesOfAt
+        | _ -> Ok (ValidatedEmail email)
