@@ -2,7 +2,7 @@ namespace fsharp_jumpstart_workshop.Repositories
 
 open System.Collections.Generic
 open fsharp_jumpstart_workshop.Types
-open FSharp.Data.Sql
+//open FSharp.Data.Sql
 
 module MemberRepository =
 
