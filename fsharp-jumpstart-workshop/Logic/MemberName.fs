@@ -5,7 +5,7 @@ open fsharp_jumpstart_workshop.Types
 
 module MemberName = 
     let capitalizeFirstLetter (name : string) : string =
-        failwith "not-implemented"
+        name.[0].ToString().ToUpper() + name.[1..]
 
     let trim (name : string) : string =
         name.Trim()
@@ -16,4 +16,4 @@ module MemberName =
     let removeEmptySpaces (name : string) : string =
         name.Replace(" ", "")        
 
-    let format (name : string) : string = failwith "not-implemented"
+    let format (name : string) : string = capitalizeFirstLetter (removeEmptySpaces name)
