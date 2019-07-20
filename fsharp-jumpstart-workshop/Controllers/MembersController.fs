@@ -55,10 +55,11 @@ type MembersController () =
                 memberToSave.LastName
                 memberToSave.Email
                 memberToSave.PlanId
-        if success then
-            this.Ok() :> ActionResult
-        else 
-            this.BadRequest() :> ActionResult
+        match success with
+        | Ok _ -> this.Ok() :> ActionResult
+        | Error  TooShort -> this.BadRequest("Your email is too short") :> ActionResult
+        | Error  BadAtCount -> this.BadRequest("Missing an at") :> ActionResult
+        | Error  NoTextOnSidesOfAt -> this.BadRequest("No text on sides of at") :> ActionResult
 
 
 
